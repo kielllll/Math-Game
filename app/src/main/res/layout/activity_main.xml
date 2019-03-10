@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main">
+
+    <TextView
+        android:id="@+id/gameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MATH NG INA MO"
+        android:textSize="35dp"
+        android:layout_marginTop="250px"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gameTitle"
+        android:text="Play"
+        android:height="80px"
+        android:width="100px"
+        android:layout_marginTop="70px"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnExit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnPlay"
+        android:text="Exit"
+        android:height="50px"
+        android:width="100px"
+        android:layout_marginTop="30px"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
