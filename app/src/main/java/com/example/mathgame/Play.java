@@ -1,22 +1,28 @@
 package com.example.mathgame;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Play extends AppCompatActivity {
 
     Button btnQuit;
     Button btnSubmit;
+    Button btnRestart;
     EditText txtAnswer;
     TextView txtHeader;
     TextView txtNum;
     TextView txtEquation;
     TextView txtScore;
     TextView txtMistake;
+    TextView txtRemarks;
     String difficulty;
     int num = 1;
     int score = 0;
@@ -40,12 +46,14 @@ public class Play extends AppCompatActivity {
 
         btnQuit = findViewById(R.id.btnQuit);
         btnSubmit = findViewById(R.id.btnSubmit);
+        btnRestart = findViewById(R.id.btnRestart);
         txtAnswer = findViewById(R.id.txtAnswer);
         txtHeader = findViewById(R.id.txtHeader);
         txtNum = findViewById(R.id.txtNum);
         txtEquation = findViewById(R.id.txtEquation);
         txtScore = findViewById(R.id.txtScore);
         txtMistake = findViewById(R.id.txtMistake);
+        txtRemarks = findViewById(R.id.txtRemarks);
 
         Intent intent = getIntent();
         Intent intentMain = new Intent(this, Main.class);
@@ -53,31 +61,84 @@ public class Play extends AppCompatActivity {
         difficulty = intent.getStringExtra("difficulty");
 
         txtHeader.setText("Difficulty: "+difficulty);
+        btnRestart.setVisibility(View.INVISIBLE);
         setEquation();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Return to main menu");
+        builder.setMessage("Muondang nka?");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Play.this.startActivity(intentMain);
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
         btnSubmit.setOnClickListener(v -> {
-            answer = Integer.parseInt(txtAnswer.getText().toString());
+            try {
+                answer = Integer.parseInt(txtAnswer.getText().toString());
 
-            switch(difficulty) {
-                case "Easy":
-                            execute(firstNum, secondNum, answer, operation);
-                            break; // end of case easy
-                case "Normal":
-                            execute(firstNum, secondNum, answer, operation);
-                            break; // end of case normal
-                case "Hard":
-                            execute(firstNum, secondNum, answer, operation);
-                            break; // end of case hard
-            } // end of switch case
+                switch(difficulty) {
+                    case "Easy":
+                        execute(firstNum, secondNum, answer, operation);
+                        break; // end of case easy
+                    case "Normal":
+                        execute(firstNum, secondNum, answer, operation);
+                        break; // end of case normal
+                    case "Hard":
+                        execute(firstNum, secondNum, answer, operation);
+                        break; // end of case hard
+                } // end of switch case
 
-            txtNum.setText((++num)+"/10");
-            txtAnswer.setText("");
+                if(num == 15) {
+                    String remarks = "";
+                    btnSubmit.setEnabled(false);
+
+                    if(score == 15) remarks = "KA PERFECT BA UY.";
+                    else if(score == 14) remarks = "HAPITA LAGE.";
+                    else if(score>=11&&score<=13) remarks = "Not bad.";
+                    else if(score>=8&&score>=10) remarks = "Good job, practice pa!";
+                    else remarks = "AY OY UNSA MANA";
+
+                    txtRemarks.setText(remarks);
+                    btnRestart.setVisibility(View.VISIBLE);
+                } else {
+                    txtNum.setText((++num)+"/15");
+                    setEquation();
+                }
+
+                txtAnswer.setText("");
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "Please enter your answer", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnRestart.setOnClickListener(v -> {
             setEquation();
+            btnRestart.setVisibility(View.INVISIBLE);
+            btnSubmit.setEnabled(true);
+            txtRemarks.setText("");
+            score = 0;
+            mistakes = 0;
+            txtScore.setText("Score: "+score);
+            txtRemarks.setText("Mistakes: "+mistakes);
         });
 
         btnQuit.setOnClickListener(v -> {
-            this.startActivity(intentMain);
+            builder.show();
         });
+    }
+
+    public void initDialog() {
+
     }
 
     public int getRandomNumber(int start, int end) {

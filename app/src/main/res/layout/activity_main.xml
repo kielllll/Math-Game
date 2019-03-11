@@ -38,4 +38,13 @@
         android:layout_marginTop="30px"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/txtCreator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Created by: Ezekiel A. Tarranza"
+        android:layout_below="@id/btnExit"
+        android:layout_marginTop="400px"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

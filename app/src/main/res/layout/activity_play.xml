@@ -31,7 +31,7 @@
         android:layout_toRightOf="@+id/txtHeader"
         android:layout_marginLeft="100px"
         android:textAllCaps="false"
-        android:text="1/10"
+        android:text="1/15"
         android:textSize="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -85,4 +85,25 @@
         android:textAllCaps="false"
         android:height="80px"
         android:width="100px" />
+
+    <Button
+        android:id="@+id/btnRestart"
+        android:layout_below="@+id/btnSubmit"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restart"
+        android:textAllCaps="false"
+        android:height="80px"
+        android:width="100px" />
+
+    <TextView
+        android:id="@+id/txtRemarks"
+        android:layout_below="@+id/btnRestart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200px"
+        android:text=""
+        android:textSize="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
