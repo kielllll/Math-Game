@@ -31,6 +31,7 @@ public class Play extends AppCompatActivity {
     int secondNum;
     int answer;
     int operation;
+    int rpn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class Play extends AppCompatActivity {
             }
         });
 
+        // firstNum, secondNum, and operation values can be found at setEquation()
         btnSubmit.setOnClickListener(v -> {
             try {
                 answer = Integer.parseInt(txtAnswer.getText().toString());
@@ -94,6 +96,9 @@ public class Play extends AppCompatActivity {
                         execute(firstNum, secondNum, answer, operation);
                         break; // end of case normal
                     case "Hard":
+                        execute(firstNum, secondNum, answer, operation);
+                        break; // end of case hard
+                    case "Hell":
                         execute(firstNum, secondNum, answer, operation);
                         break; // end of case hard
                 } // end of switch case
@@ -126,10 +131,12 @@ public class Play extends AppCompatActivity {
             btnRestart.setVisibility(View.INVISIBLE);
             btnSubmit.setEnabled(true);
             txtRemarks.setText("");
+            num = 1;
             score = 0;
             mistakes = 0;
+            txtNum.setText(num+"/15");
             txtScore.setText("Score: "+score);
-            txtRemarks.setText("Mistakes: "+mistakes);
+            txtMistake.setText("Mistakes: "+mistakes);
         });
 
         btnQuit.setOnClickListener(v -> {
@@ -151,43 +158,60 @@ public class Play extends AppCompatActivity {
                 firstNum = getRandomNumber(1,15);
                 secondNum = getRandomNumber(1,15);
                 operation = getRandomNumber(1,4);
-                this.setOperation(operation);
+                rpn = 0; // default value if not in hell mode
                 break; // end of case easy
             case "Normal":
                 firstNum = getRandomNumber(16,30);
                 secondNum = getRandomNumber(16,30);
-                operation = getRandomNumber(1,4);
-                this.setOperation(operation);
+                operation = getRandomNumber(1,5);
+                rpn = 0; // default value if not in hell mode
                 break; // end of case normal
             case "Hard":
                 firstNum = getRandomNumber(31,100);
                 secondNum = getRandomNumber(31,100);
-                operation = getRandomNumber(1,4);
-                this.setOperation(operation);
+                operation = getRandomNumber(1,5);
+                rpn = 0; // default value if not in hell mode
+                break; // end of case hard
+            case "Hell":
+                firstNum = getRandomNumber(31,100);
+                secondNum = getRandomNumber(31,100);
+                operation = getRandomNumber(1,5);
+                rpn = getRandomNumber(1,2);
                 break; // end of case hard
         } // end of switch case
+
+        this.setOperation(operation, rpn);
     }
 
-    public void setOperation(int operation) {
-        String equation = "";
+    public void setOperation(int operation, int rpn) {
+        String operator = "";
+        String equation;
         switch(operation) {
             case 1: // Addition
-                equation = firstNum+"+"+secondNum;
-                txtEquation.setText(equation);
+                operator = "+";
                 break;
             case 2: // Subtraction
-                equation = firstNum+"-"+secondNum;
-                txtEquation.setText(equation);
+                operator = "-";
                 break;
             case 3: // Multiplication
-                equation = firstNum+"*"+secondNum;
-                txtEquation.setText(equation);
+                operator = "*";
                 break;
             case 4: // Division
-                equation = firstNum+"/"+secondNum;
-                txtEquation.setText(equation);
+                operator = "/";
+                break;
+            case 5: // Remainder / Modulus
+                operator = "%";
                 break;
         }
+
+        if(rpn==0) // infix
+            equation = firstNum+operator+secondNum;
+        else if(rpn==1) // prefix
+            equation = operator+" "+firstNum+" "+secondNum;
+        else // postfix
+            equation = firstNum+" "+secondNum+" "+operator;
+
+        txtEquation.setText(equation);
     }
 
     public void execute(int firstNum, int secondNum, int answer, int operation) {
@@ -209,6 +233,10 @@ public class Play extends AppCompatActivity {
             case 4: // Division
                 int quotient = firstNum/secondNum;
                 correct = (quotient==answer)?true:false;
+                break;
+            case 5: // Remainder / Modulus
+                int remainder = firstNum/secondNum;
+                correct = (remainder==answer)?true:false;
                 break;
         }
 

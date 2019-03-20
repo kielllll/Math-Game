@@ -10,7 +10,7 @@
         android:id="@+id/gameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MATH NG INA MO"
+        android:text="MATHABA :("
         android:textSize="35dp"
         android:layout_marginTop="250px"
         android:textStyle="bold"

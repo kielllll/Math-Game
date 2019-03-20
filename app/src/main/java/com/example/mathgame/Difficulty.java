@@ -11,6 +11,7 @@ public class Difficulty extends AppCompatActivity {
     Button btnEasy;
     Button btnNormal;
     Button btnHard;
+    Button btnHell;
     Button btnBack;
 
     @Override
@@ -28,6 +29,7 @@ public class Difficulty extends AppCompatActivity {
         btnEasy = findViewById(R.id.btnEasy);
         btnNormal = findViewById(R.id.btnNormal);
         btnHard = findViewById(R.id.btnHard);
+        btnHell = findViewById(R.id.btnHell);
         btnBack = findViewById(R.id.btnBack);
 
         Intent intentPlay = new Intent(this, Play.class);;
@@ -45,6 +47,11 @@ public class Difficulty extends AppCompatActivity {
 
         btnHard.setOnClickListener(v -> {
             intentPlay.putExtra("difficulty", "Hard");
+            this.startActivity(intentPlay);
+        });
+
+        btnHell.setOnClickListener(v -> {
+            intentPlay.putExtra("difficulty", "Hell");
             this.startActivity(intentPlay);
         });
 
